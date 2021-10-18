@@ -160,17 +160,19 @@ class AICSImage:
         # Try reader detection based off of file path extension
         if isinstance(image, (str, Path)):
             info_string = ""
-
             path = str(image)
 
             # Check for extension in FORMAT_IMPLEMENTATIONS
             for format_ext, readers in FORMAT_IMPLEMENTATIONS.items():
                 if path.lower().endswith(f".{format_ext}"):
+                    info_string = f"{readers}"
+                    print(info_string)
                     for reader in readers:
                         try:
                             ReaderClass = _load_reader(reader)
                             if ReaderClass.is_supported_image(image):
                                 info_string = f"First return point -- {ReaderClass}"
+                                print(info_string)
                                 return ReaderClass
 
                         except Exception:
@@ -183,6 +185,7 @@ class AICSImage:
             try:
                 if ReaderClass.is_supported_image(image, **kwargs):  # type: ignore
                     info_string = f"Second return point -- {ReaderClass}"
+                    print(info_string)
                     return ReaderClass
             except Exception:
                 pass
@@ -193,6 +196,7 @@ class AICSImage:
                 if path.lower().endswith(f".{format_ext}"):
                     installer = READER_TO_INSTALL[readers[0]]
                     info_string = "raising exception"
+                    print(info_string)
                     raise exceptions.UnsupportedFileFormatError(
                         "AICSImage",
                         path,

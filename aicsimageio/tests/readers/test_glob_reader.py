@@ -176,7 +176,7 @@ def test_glob_reader_4d(tmp_path: Path) -> None:
 
 
 def test_aics_image(tmp_path: Path) -> None:
-
+    _ = make_fake_data_3d(tmp_path)
     aicsimage_tiff = aicsimageio.AICSImage(tmp_path / "3d_images/S0_T0_C0_Z0.tif")
     assert isinstance(aicsimage_tiff.reader, aicsimageio.readers.tiff_reader.TiffReader)
 
