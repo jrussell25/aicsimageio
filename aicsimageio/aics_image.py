@@ -169,6 +169,7 @@ class AICSImage:
                         try:
                             ReaderClass = _load_reader(reader)
                             if ReaderClass.is_supported_image(image):
+                                print("First return point", ReaderClass)
                                 return ReaderClass
 
                         except Exception:
@@ -180,6 +181,7 @@ class AICSImage:
         for ReaderClass in AICSImage.SUPPORTED_READERS:
             try:
                 if ReaderClass.is_supported_image(image, **kwargs):  # type: ignore
+                    print("Second return point", ReaderClass)
                     return ReaderClass
             except Exception:
                 pass
@@ -189,6 +191,7 @@ class AICSImage:
             for format_ext, readers in FORMAT_IMPLEMENTATIONS.items():
                 if path.lower().endswith(f".{format_ext}"):
                     installer = READER_TO_INSTALL[readers[0]]
+                    print("raising exception")
                     raise exceptions.UnsupportedFileFormatError(
                         "AICSImage",
                         path,
